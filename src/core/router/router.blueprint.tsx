@@ -23,6 +23,15 @@ export const blueprint: RouteObject[] = [
               };
             },
           },
+          {
+            path: '/projects',
+            async lazy() {
+              const { Projects } = await import('src/pages/projects');
+              return {
+                Component: Projects,
+              };
+            },
+          },
         ],
       },
       {
@@ -53,7 +62,7 @@ export const blueprint: RouteObject[] = [
 ];
 
 function DefaultRoute() {
-  return <Navigate to="/" />;
+  return <Navigate to="/projects" />;
 }
 
 const isAuthenticated = async () => {
