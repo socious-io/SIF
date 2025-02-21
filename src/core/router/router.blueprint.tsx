@@ -1,5 +1,7 @@
-import { Navigate, RouteObject, createBrowserRouter, useRouteError } from 'react-router-dom';
+import { Navigate, RouteObject, createBrowserRouter } from 'react-router-dom';
 import { Layout } from 'src/modules/Layout';
+
+import { getProjectAdaptor, getProjectsAdaptor } from '../adaptors';
 
 export const blueprint: RouteObject[] = [
   { path: '/', element: <DefaultRoute /> },
@@ -22,6 +24,34 @@ export const blueprint: RouteObject[] = [
                 Component: CreateProject,
               };
             },
+          },
+          {
+            path: '/projects',
+
+            children: [
+              {
+                path: '',
+                async lazy() {
+                  const { Projects } = await import('src/pages/projects');
+                  return {
+                    Component: Projects,
+                  };
+                },
+              },
+              {
+                path: 'explore',
+                loader: async () => {
+                  const projects = await getProjectsAdaptor(1, 10);
+                  return { projects: projects.data };
+                },
+                async lazy() {
+                  const { Explorer } = await import('src/pages/projects/explorer');
+                  return {
+                    Component: Explorer,
+                  };
+                },
+              },
+            ],
           },
         ],
       },
@@ -53,7 +83,7 @@ export const blueprint: RouteObject[] = [
 ];
 
 function DefaultRoute() {
-  return <Navigate to="/" />;
+  return <Navigate to="/projects" />;
 }
 
 const isAuthenticated = async () => {
