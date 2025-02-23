@@ -51,6 +51,21 @@ export const blueprint: RouteObject[] = [
                   };
                 },
               },
+              {
+                path: 'explore/:id',
+                loader: async ({ params }) => {
+                  if (params.id) {
+                    const detail = await getProjectAdaptor(params.id);
+                    return { projectDetail: detail.data };
+                  }
+                },
+                async lazy() {
+                  const { ProjectDetail } = await import('src/pages/projects/detail');
+                  return {
+                    Component: ProjectDetail,
+                  };
+                },
+              },
             ],
           },
         ],
