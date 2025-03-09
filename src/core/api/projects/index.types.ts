@@ -8,5 +8,6 @@ export interface Project {
   social_cause: string;
   cover_id: string;
   wallet_address: string;
+  website?: string;
   wallet_env: string;
 }

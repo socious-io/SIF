@@ -52,3 +52,9 @@ export * from './services/services.types';
 
 export * from './contracts/contracts.api';
 export * from './contracts/contracts.types';
+
+export * from './media/media.api';
+export * from './media/media.types';
+
+export * from './auth/auth.api';
+export * from './auth/auth.types';

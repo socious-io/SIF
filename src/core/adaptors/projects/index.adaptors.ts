@@ -1,5 +1,7 @@
 // import { getProjects, getProject, vote, donate } from 'src/core/api';
-import { IdentityType } from 'src/core/api';
+import { createProjects, IdentityType } from 'src/core/api';
+import { removedEmptyProps } from 'src/core/helpers/objects-arrays';
+import { ProjectState } from 'src/store/reducers/createProject.reducer';
 
 import { AdaptorRes, DonateReq, Project, ProjectRes, SuccessRes } from '..';
 
@@ -133,5 +135,15 @@ export const voteOrDonateProjectAdaptor = async (
   } catch (error) {
     console.error('Error in voting/donating project: ', error);
     return { data: null, error: 'Error in voting/donating project' };
+  }
+};
+
+export const createProjectAdaptor = async (project: ProjectState): Promise<AdaptorRes<SuccessRes>> => {
+  try {
+    const createdProject = await createProjects(removedEmptyProps(project));
+    return { data: { message: 'succeed' }, error: null };
+  } catch (error) {
+    console.error('Error in creating project: ', error);
+    return { data: null, error: 'Error in creating project' };
   }
 };
